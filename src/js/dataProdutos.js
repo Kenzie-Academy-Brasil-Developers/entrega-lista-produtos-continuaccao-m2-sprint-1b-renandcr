@@ -9,7 +9,7 @@ const produtos = [
         promocao: true,
         precoPromocao: '1.00',
         componentes: [
-            'Portacio',
+            'Potássio',
             'Vitamina B6',
             'Vitamina C',
             'Folatos'
@@ -37,11 +37,11 @@ const produtos = [
         preco: '2.00',
         secao: 'Hortifruti',
         categoria: 'fruta',
-        img: './src/img/maça.png',
+        img: './src/img/maca.png',
         promocao: true,
         precoPromocao: '1.50',
         componentes: [
-            'Portacio',
+            'Potássio',
             'Vitamina A',
             'Vitamina E',
             'Vitamina C'
@@ -67,7 +67,7 @@ const produtos = [
         id: 5,
         nome: 'Leite',
         preco: '5.00',
-        secao: 'Laticinio',
+        secao: 'Laticínio',
         categoria: 'Leite',
         img: './src/img/leite.png',
         promocao: false,
