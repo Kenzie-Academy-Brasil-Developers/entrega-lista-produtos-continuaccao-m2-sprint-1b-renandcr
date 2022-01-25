@@ -1,196 +1,157 @@
-
 const ul = document.querySelector(".containerListaProdutos ul")
-const spanPrice = document.getElementById("precoTotal")
 const ulCarrinho = document.querySelector(".ulCarrinho")
-console.log(ulCarrinho)
 
-
-// Função criar template vitrine
-function montarListaProdutos(produto) {
-    const {id} = produto
-
-    const li = document.createElement("li")
-    const img = document.createElement("img")
-    const h3Nome = document.createElement("h3Nome")
-    const p = document.createElement("p")
-    const spanSecao = document.createElement("spanSecao")
-    const buttonAdd = document.createElement("button")
-    const ol = document.createElement("ol")
-
-    img.src = produto.img
-    img.alt = produto.nome
-    h3Nome.innerText = produto.nome
-    p.innerText = produto.preco
-    spanSecao.innerText = produto.secao
-
-    buttonAdd.innerText = "Adicionar ao Carrinho"
-    buttonAdd.classList.add("estiloGeralBotoes", "estiloGeralBotoes--addCarrinho")
-    buttonAdd.setAttribute("data-id", id)
-    console.log(produto.componentes)
-
-    li.appendChild(img)
-    li.appendChild(h3Nome)
-    li.appendChild(p)
-    li.appendChild(spanSecao)
-    li.appendChild(ol)
-
-    produto.componentes.forEach((componente) => {
-        const liComponentes = document.createElement('li')
-        liComponentes.innerText = componente
-        ol.appendChild(liComponentes)
-    })
-    li.appendChild(buttonAdd)
-
-    ul.appendChild(li) 
-}
-
+function montarListaProdutos(listaProdutos){
+    ul.innerText = ""
+    listaProdutos.forEach((produto) => {
+        // Crie os elementos
+        const {id} = produto
+        console.log(id)
+        const li = document.createElement("li")
+        const img = document.createElement("img")
+        const h3 = document.createElement("h3")
+        const p = document.createElement("p")
+        const span = document.createElement("span")
+        const buttonAdd = document.createElement("button")
         
+        // Atribua dados aos elementos
+        img.src = produto.img
+        img.alt = produto.nome
+        h3.innerText = produto.nome
+        p.innerText = produto.preco
+        span.innerText = produto.secao
+        buttonAdd.innerText = "Adicionar ao Carrinho"
+        buttonAdd.setAttribute("data-id", id)
+        span.classList.add("teste")
 
-        
-
-// Função criar template carrinho
-function montarListaProdutosCarrinho(produto) {
-
-    const li = document.createElement("li")
-    const img = document.createElement("img")
-    const h3Nome = document.createElement("h3Nome")
-    const p = document.createElement("p")
-    const spanSecao = document.createElement("spanSecao")
-
-    img.src = produto.img
-    img.alt = produto.nome
-    h3Nome.innerText = produto.nome
-    p.innerText = produto.preco
-    spanSecao.innerText = produto.secao
-
-    li.appendChild(img)
-    li.appendChild(h3Nome)
-    li.appendChild(p)
-    li.appendChild(spanSecao)
-
-    ulCarrinho.appendChild(li)   
-
-}
-  
-// Listar produtos no carrinho
-function listarProdutosCarrinho(listaProdutos){
-    listaProdutos.forEach(produto => {
-        montarListaProdutosCarrinho(produto)
-    })
-}
-
-// Listar produtos na vitrine
-function listarProdutos(listaProdutos){
-    ul.innerHTML = ""
-    listaProdutos.forEach(produto => {
-        montarListaProdutos(produto)
-    })
-}
-listarProdutos(produtos)
-
-//Interceptar click
-ul.addEventListener("click", interceptarClick)
-function interceptarClick(event){
-    const botaoClick = event.target
-    if(botaoClick.tagName === "BUTTON"){
-        const idProduto = botaoClick.getAttribute("data-id")
-        addCarrinho(idProduto)
-    }
-}
-
-// Função adicionar no carrinho
-const arrayProdutos = []
-
-function addCarrinho(idDoProduto){
-    ulCarrinho.innerHTML = ""
-    const produtoSelecionado = produtos.find((produto) => {
-        return produto.id == idDoProduto
-    })
-    arrayProdutos.push(produtoSelecionado)
-    listarProdutosCarrinho(arrayProdutos, montarListaProdutosCarrinho, ulCarrinho)
-
-    valorTotal(arrayProdutos)
-    console.log(arrayProdutos)
-}
-
-
-
-// Função que retorna somente o elemento buscado
-function mostrarBusca(){
-    let captura = document.querySelector(".campoBuscaPorNome").value
-
-    const listaBusca = produtos.filter((produto) => {
-        // Busca por categoria
-        if(captura === produto.categoria.toUpperCase()){
-            return produto.categoria 
-        } else if(captura === produto.categoria.toLowerCase()){
-            return produto.categoria 
-        } else if(captura === produto.categoria){
-            return produto.categoria 
-        } 
-
-        // Busca por seção
-        if(captura === produto.secao.toUpperCase()){
-            return produto.secao 
-        } else if(captura === produto.secao.toLowerCase()){
-            return produto.secao 
-        } else if(captura === produto.secao){
-            return produto.secao 
-        } 
-        
-        // Busca por nome
-        if(captura === produto.nome.toUpperCase()){
-            return produto.nome 
-        } else if(captura === produto.nome.toLowerCase()){
-            return produto.nome 
-        } else if(captura === produto.nome){
-            return produto.nome 
-        } 
-    })
-
-    listarProdutos(listaBusca)
-}
-const botaoBusca = document.querySelector(".estiloGeralBotoes--botaoBuscaPorNome")
-botaoBusca.addEventListener("click", mostrarBusca)
-    
-
-// Função que retorna todos os elementos 
-function mostrarTodos(){
-    const listaTodos = produtos.filter((produto) => {
-        return produto.secao === "Hortifruti", "Pão", "Leite"
-    })
-    listarProdutos(listaTodos)
-}
-const botaoTodos = document.querySelector(".estiloGeralBotoes--mostrarTodos")
-botaoTodos.addEventListener("click", mostrarTodos)
-
-
-// Função que retorna apenas os elementos "Hortifruti"
-function filtrarPorHortifruti(){
-    const listaHortifruti = produtos.filter((produto) => {
-        return produto.secao === "Hortifruti"
-    })
-
-    listarProdutos(listaHortifruti)
-}
-const botaoMostrarHortifruti = document.querySelector(".estiloGeralBotoes--filtrarHortifruti")
-botaoMostrarHortifruti.addEventListener("click", filtrarPorHortifruti)
-
-
-// Função que retorna o preço total dos elementos listados
-const precoTotal = document.getElementById("precoTotal")
-
-function valorTotal(produto){
-    let total = 0
-    for(let i = 0; i < produto.length; i++){
-        if(produto.length === 1){
-            total = produto[i].preco.valueOf()
-        } else{
-            total += Number(produto[i].preco.valueOf())
-            console.log(total)
+        // Atribua os dados do array aos elementos
+        const ol = document.createElement("ol")
+        for(let item in produto.componentes){
+            const li2 = document.createElement("li")
+            li2.innerText = produto.componentes[item]
+            ol.appendChild(li2)
         }
-    }
-    return precoTotal.innerText = total
+
+        // Adicione os elementos a li
+        li.appendChild(img)
+        li.appendChild(h3)
+        li.appendChild(p)
+        li.appendChild(span)
+        li.appendChild(ol)
+        li.appendChild(buttonAdd)
+
+        // Adicione os elementos ao html
+        ul.appendChild(li)
+    })
 }
 
+// Liste os produtos no carrinho após receberem o click
+function montarListaCarrinho(dadosProdutos){
+    dadosProdutos.forEach((produto) => {
+        const {id, nome, preco, secao, img} = produto 
+        const li2 = document.createElement("li")
+        const img2 = document.createElement("img")
+        const h3 = document.createElement("h3")
+        const p = document.createElement("p")
+        const span = document.createElement("span")
 
+        img2.src = img
+        img.alt = nome
+        h3.innerText = nome
+        p.innerText = preco
+        span.innerText = secao
+
+        li2.appendChild(img2)
+        li2.appendChild(h3)
+        li2.appendChild(p)
+        li2.appendChild(span)
+
+        ulCarrinho.appendChild(li2)
+    })
+}
+
+// montarListaProdutos(produtos)
+function filtrarPorHortifruti(){
+    const listaHorti = produtos.filter((current, index, array) => {
+        return current.secao === "Hortifruti"
+    })
+    montarListaProdutos(listaHorti)
+}
+
+const buttonHorti = document.querySelector(".estiloGeralBotoes--filtrarHortifruti")
+
+buttonHorti.addEventListener("click", filtrarPorHortifruti)
+
+// Mostre todos os produtos quando o botão "mostrar todos" for clicado
+const filtroMostrarTodos = () => {
+    const mostrarTudo = produtos.filter((current) => {
+        return current
+    })
+    montarListaProdutos(mostrarTudo)
+}
+
+const buttonMostrarTodos = document.querySelector(".estiloGeralBotoes--mostrarTodos")
+buttonMostrarTodos.addEventListener("click", filtroMostrarTodos)
+
+// Mostre os resultados do campo de busca
+const inputValue = document.querySelector(".campoBuscaPorNome")
+
+const mostrarBusca = () => {
+    const buscaInput = inputValue.value
+    console.log(buscaInput.toLowerCase())
+    const filter = produtos.filter((current, index, array) => {
+        if(buscaInput.toLowerCase() == current.nome.toLowerCase()){
+            return current.nome.toLowerCase() == buscaInput.toLowerCase()
+        } else if(buscaInput.toLowerCase() == current.secao.toLocaleLowerCase()){
+            return current.secao.toLocaleLowerCase() == buscaInput.toLowerCase()
+        } else if(buscaInput.toLowerCase() == current.categoria.toLocaleLowerCase()){
+            return current.categoria.toLocaleLowerCase() == buscaInput.toLowerCase()
+        }
+    })
+    montarListaProdutos(filter)
+}
+
+const ButtonBuscaNome = document.querySelector(".estiloGeralBotoes--botaoBuscaPorNome")
+ButtonBuscaNome.addEventListener("click", mostrarBusca)
+
+// Calcule o preço total dos itens mostrados na tela e retorne o total
+const spanPrice = document.querySelector("#precoTotal")
+
+const calculoTotal = (objetoDados) => {
+    let resultado = 0
+    const filter = objetoDados.find((current, index, array) => {
+        resultado += Number(current.preco)
+    })
+    spanPrice.innerText = resultado
+}
+
+// Adicione os produtos ao carrinho após o click
+
+const arrayCarrinho = []
+function addCarrinho(idProduto){
+    ulCarrinho.innerHTML = ""
+    const findProduct = produtos.find((current) => {
+        return current.id == idProduto
+    })
+    arrayCarrinho.push(findProduct)
+    montarListaCarrinho(arrayCarrinho)
+    calculoTotal(arrayCarrinho)
+    console.log(arrayCarrinho)
+    
+}
+
+// ulCarrinho.appendChild()
+
+function cliquei(evt){
+    const click = evt.target
+    if(click.tagName === "BUTTON"){
+        console.log("cliquei")
+        const idProduto = click.getAttribute("data-id")
+        addCarrinho(idProduto)
+        console.log(idProduto)
+    }
+
+
+}
+
+ul.addEventListener("click", cliquei)
